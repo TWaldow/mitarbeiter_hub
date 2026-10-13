@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="text-center mb-5">
+    <h1 class="display-5 fw-bold text-dark">Mitarbeiter-Hub</h1>
+    <p class="lead text-muted">Wähle deinen Standort aus.</p>
+  </div>
+  <div class="row g-4">
+    {% for store_id, store_info in stores.items() %}
+      <div class="col-md-4">
+        <a href="/service/{{ store_id }}" class="text-decoration-none">
+          <div class="card h-100 service-card text-center p-4 border-0 shadow-sm"
+               style="--primary-color: {{ store_info.primary_color }};
+                      --secondary-color: {{ store_info.secondary_color }}">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+              <div class="icon-circle mb-3 bg-light">
+                <i class="fas {{ store_info.icon }} fa-2x"></i>
+              </div>
+              <h3 class="card-title h5 text-dark fw-bold">{{ store_info.name }}</h3>
+            </div>
+          </div>
+        </a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

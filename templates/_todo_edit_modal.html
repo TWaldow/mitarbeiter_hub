@@ -1,0 +1,62 @@
+{# Erwartet: todo, store_id #}
+<div class="modal fade" id="editTodoModal{{ todo.id }}" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form method="post" action="{{ url_for('todo_edit', store_id=store_id, todo_id=todo.id) }}">
+        <div class="modal-header">
+          <h5 class="modal-title">Todo bearbeiten</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input type="text" name="titel" class="form-control" value="{{ todo.titel }}" required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Beschreibung</label>
+            <textarea name="text" class="form-control" rows="3">{{ todo.text or '' }}</textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Kategorie</label>
+            <select name="typ"
+                    id="edit{{ todo.id }}_typ"
+                    class="form-select"
+                    onchange="updateTodoFormFields('edit{{ todo.id }}')">
+              <option value="tagestodo" {% if todo.typ == 'tagestodo' %}selected{% endif %}>Tag</option>
+              <option value="wochentodo" {% if todo.typ == 'wochentodo' %}selected{% endif %}>Woche</option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Typ</label>
+            <select name="art"
+                    id="edit{{ todo.id }}_art"
+                    class="form-select"
+                    onchange="updateTodoFormFields('edit{{ todo.id }}')">
+              <option value="wiederkehrend" {% if todo.art == 'wiederkehrend' %}selected{% endif %}>Wiederkehrend</option>
+              <option value="einmalig" {% if todo.art == 'einmalig' %}selected{% endif %}>Einmalig</option>
+            </select>
+          </div>
+          <div class="mb-3">
+<label class="form-label">Erledigungsdatum</label>
+<input type="date"
+       name="erledigungsdatum"
+       id="edit{{ todo.id }}_erledigungsdatum"
+       class="form-control"
+       value="{{ todo.erledigungsdatum.strftime('%Y-%m-%d') if todo.erledigungsdatum else '' }}"
+       disabled
+       onchange="checkSonntag(this)" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+          <button type="submit" class="btn btn-custom">Speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<script>
+  document.getElementById('editTodoModal{{ todo.id }}').addEventListener('shown.bs.modal', function () {
+    updateTodoFormFields('edit{{ todo.id }}');
+  });
+</script>

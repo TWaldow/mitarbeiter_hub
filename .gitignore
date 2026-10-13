@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Flask / SQLite
+instance/
+*.db
+
+# Umgebungsvariablen / Secrets
+.env
+
+# Uploads (temporäre Dateien, nie ins Repo)
+uploads/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

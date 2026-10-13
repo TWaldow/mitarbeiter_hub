@@ -1,0 +1,274 @@
+body {
+  background-color: #f4f6f9;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.service-card {
+  border-radius: 16px;
+  transition:
+    transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.4s ease,
+    background-color 0.3s ease;
+  background-color: #ffffff;
+}
+
+.service-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08) !important;
+  background-color: #ffffff;
+}
+
+.icon-circle {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease;
+}
+
+/* Service-Page Icons: primary color via CSS-Variable */
+.service-card .icon-circle i {
+  color: var(--primary-color);
+}
+
+/* Hover: secondary color */
+.service-card:hover .icon-circle i {
+  color: var(--secondary-color) !important;
+  transform: scale(1.1) rotate(5deg);
+}
+
+.service-card:hover .icon-circle {
+  background-color: #e7f1ff !important;
+}
+
+.btn-custom {
+  background-color: var(--primary-color) !important;
+  border: none;
+  border-radius: 8px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.btn-custom:hover {
+  background-color: var(--secondary-color) !important;
+  transform: translateY(-1px);
+  color: white;
+  font-weight: 600;
+}
+
+.form-check-input:checked {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.form-check-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 0.25rem
+    color-mix(in srgb, var(--primary-color) 25%, transparent) !important;
+}
+
+.disabled-card .icon-circle i {
+  color: #888888 !important;
+  opacity: 0.5;
+}
+
+.disabled-card {
+  pointer-events: none;
+  cursor: default;
+}
+
+.todo-card {
+  border-radius: 12px;
+  border-left: 4px solid transparent;
+  background: #ffffff;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+}
+.todo-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+.todo-card.is-open {
+  border-left-color: #f0b429;
+}
+.todo-card.is-done {
+  border-left-color: #4a90d9;
+  background: #fafbfd;
+}
+.todo-checkbox {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid #d8dde3;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  flex-shrink: 0;
+}
+.todo-card.is-open .todo-checkbox {
+  border-color: #f0b429;
+}
+.todo-card.is-open .todo-checkbox:hover {
+  background: #f0b429;
+  border-color: #f0b429;
+}
+.todo-card.is-done .todo-checkbox {
+  background: #4a90d9;
+  border-color: #4a90d9;
+  color: #fff;
+}
+.todo-checkbox i {
+  font-size: 0.7rem;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s ease;
+}
+.todo-card.is-done .todo-checkbox i {
+  opacity: 1;
+  transform: scale(1);
+}
+.todo-section-label {
+  letter-spacing: 0.03em;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #8a93a3;
+  font-weight: 700;
+}
+.todo-actions {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  cursor: default;
+}
+.todo-card:hover .todo-actions {
+  opacity: 1;
+}
+
+/* Ergänzung zu den bestehenden .todo-* Regeln in style.css */
+
+.todo-card-form {
+  display: block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.todo-card-form:hover .todo-card {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.todo-card-form:hover .todo-actions {
+  opacity: 1;
+}
+
+/* ===== Wochen-Todos Sektion (immer sichtbar) ===== */
+.woche-section {
+  border: 2px solid #8e44ad;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+  background-color: #fff;
+}
+
+.woche-section-header {
+  color: #8e44ad;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 2.05rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* ===== Wochentag-Sektionen ===== */
+.day-section {
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  border: 2px solid transparent;
+  background-color: #fff;
+}
+
+.day-section-title {
+  color: #10a9ff;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 2.05rem;
+  letter-spacing: 0.03em;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.day-section.day-today {
+  border-color: #94b9ff;
+}
+
+.day-section.day-future {
+  border-color: #f1c40f;
+}
+
+.day-section.day-overdue {
+  border-color: #e74c3c;
+}
+
+.day-section-header {
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  letter-spacing: 0.03em;
+  color: #333;
+  text-align: center;
+}
+
+/* ===== Art-Kennzeichnung (einmalig/wiederkehrend) ===== */
+.todo-art-label {
+  font-size: 0.72rem;
+  color: #8a93a3;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* ===== Einmalige Todos: kompletter Rahmen statt nur linker Balken ===== */
+.todo-card.is-einmalig {
+  border: 2px solid #d8dde3;
+  border-left-width: 2px;
+}
+
+.todo-card.is-einmalig.is-open {
+  border-color: #f0b429;
+}
+
+.todo-card.is-einmalig.is-done {
+  border-color: #4a90d9;
+}
+
+.todo-card-title {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+/* ===== Zeilenumbrüche in Beschreibung erhalten ===== */
+.todo-description {
+  white-space: pre-wrap;
+  font-size: 1.4rem;
+}

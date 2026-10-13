@@ -1,0 +1,28 @@
+{
+  "stores": {
+    "0": {
+      "name": "Standort A",
+      "short_name": "A",
+      "icon": "fa-store",
+      "services": ["todos", "ideas", "invoice", "dashboard"],
+      "primary_color": "#2563eb",
+      "secondary_color": "#1e40af"
+    },
+    "1": {
+      "name": "Standort B",
+      "short_name": "B",
+      "icon": "fa-building",
+      "services": ["todos", "ideas", "schichtplan", "trend-tracker"],
+      "primary_color": "#0f766e",
+      "secondary_color": "#14b8a6"
+    },
+    "2": {
+      "name": "Standort C",
+      "short_name": "C",
+      "icon": "fa-warehouse",
+      "services": ["todos", "ideas", "invoice", "schichtplan"],
+      "primary_color": "#7c3aed",
+      "secondary_color": "#a78bfa"
+    }
+  }
+}

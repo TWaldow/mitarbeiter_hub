@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="fw-bold text-dark mb-0">
+      <i class="fas fa-list me-2" style="color: var(--primary-color)"></i>To-Do Liste
+    </h1>
+    <button type="button"
+            class="btn btn-custom btn-lg"
+            data-bs-toggle="modal"
+            data-bs-target="#addTodoModal">
+      <i class="fas fa-plus me-1"></i> Neues Todo
+    </button>
+  </div>
+
+{# ===================== WOCHEN-TODOS  ===================== #}
+  <div class="woche-section-header">
+    <i class="fas fa-calendar-week me-2"></i>Wochen-Todos
+  </div>
+<div class="woche-section">
+  <div class="woche-section-body">
+    {% if woche_todos %}
+      <p class="text-muted mb-2 small">Diese Todos gelten für die gesamte Woche.</p>
+    {% endif %}
+    {% for todo in woche_todos %}
+      {% include "_todo_card.html" %}
+      {% include "_todo_edit_modal.html" %}
+    {% else %}
+      <p class="text-muted mb-0">Keine Wochen-Todos vorhanden.</p>
+    {% endfor %}
+  </div>
+</div>
+
+  {# ===================== WOCHENTAG-SEKTIONEN ===================== #}
+    <div class="day-section-title">
+    <i class="fas fa-calendar-week me-2"></i>Tages-Todos
+  </div>
+  {% for sektion in wochentag_sektionen %}
+    <div class="day-section {{ sektion.status_klasse }}">
+      <div class="day-section-header">
+        {{ sektion.name }} &ndash; {{ sektion.datum.strftime('%d.%m.%Y') }}
+      </div>
+      {% for todo in sektion.todos %}
+        {% include "_todo_card.html" %}
+        {% include "_todo_edit_modal.html" %}
+      {% else %}
+        <p class="text-muted mb-0 small">Keine Todos für diesen Tag.</p>
+      {% endfor %}
+    </div>
+  {% endfor %}
+
+  {# ===================== ADD MODAL ===================== #}
+  <div class="modal fade" id="addTodoModal" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="post" action="{{ url_for('todo_add', store_id=store_id) }}">
+          <div class="modal-header">
+            <h5 class="modal-title">Neues Todo</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Name</label>
+              <input type="text" name="titel" class="form-control" required />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Beschreibung</label>
+              <textarea name="text" class="form-control" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Kategorie</label>
+              <select name="typ" id="add_typ" class="form-select" onchange="updateTodoFormFields('add')">
+                <option value="tagestodo">Tag</option>
+                <option value="wochentodo">Woche</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Typ</label>
+              <select name="art" id="add_art" class="form-select" onchange="updateTodoFormFields('add')">
+                <option value="wiederkehrend">Wiederkehrend</option>
+                <option value="einmalig">Einmalig</option>
+              </select>
+            </div>
+            <div class="mb-3">
+<label class="form-label">Erledigungsdatum</label>
+<input type="date"
+       name="erledigungsdatum"
+       id="add_erledigungsdatum"
+       class="form-control"
+       value="{{ heute.strftime('%Y-%m-%d') }}"
+       disabled
+       onchange="checkSonntag(this)" />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
+            <button type="submit" class="btn btn-custom">Hinzufügen</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+function updateTodoFormFields(prefix) {
+  const kategorie = document.getElementById(prefix + '_typ').value;
+  const artSelect = document.getElementById(prefix + '_art');
+  const erledigungsdatumInput = document.getElementById(prefix + '_erledigungsdatum');
+
+  const istTag = kategorie === 'tagestodo';
+  artSelect.disabled = !istTag;
+  if (!istTag) artSelect.value = 'wiederkehrend';
+
+  const istEinmalig = istTag && artSelect.value === 'einmalig';
+  erledigungsdatumInput.disabled = !istEinmalig;
+  if (!istEinmalig) erledigungsdatumInput.value = '';
+}
+
+    function checkSonntag(input) {
+      if (!input.value) return;
+      const datum = new Date(input.value + 'T00:00:00');
+      if (datum.getDay() === 0) {
+        alert('Sonntag ist nicht wählbar.');
+        input.value = '';
+      }
+    }
+
+    // Initialzustand beim Öffnen des Add-Modals setzen
+    document.getElementById('addTodoModal').addEventListener('shown.bs.modal', function () {
+      updateTodoFormFields('add');
+    });
+
+    function handleToggleSubmit(event, form) {
+  event.preventDefault();
+  fetch(form.action, { method: 'POST' })
+    .then(response => {
+      if (!response.ok) throw new Error('Toggle fehlgeschlagen');
+      const card = form.querySelector('.todo-card');
+      const content = form.querySelector('.todo-content');
+      card.classList.toggle('is-open');
+      card.classList.toggle('is-done');
+      content.classList.toggle('text-decoration-line-through');
+      content.classList.toggle('text-muted');
+    })
+    .catch(err => {
+      console.error(err);
+      alert('Etwas ist schiefgelaufen. Bitte Seite neu laden.');
+    });
+  return false;
+}
+  </script>
+{% endblock %}
